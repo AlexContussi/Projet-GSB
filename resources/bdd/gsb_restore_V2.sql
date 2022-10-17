@@ -1,14 +1,3 @@
-/* 
-
-    modifs à effectuer:
-
-script de suppression des fiches de frais tout les mois sur de + 1 an
-créer un comptableGSB, avec des droits limités à ses actions
-créer un adminGSB qui a les droits
-ne plus enregistrer les mdp en clair 
-contrôler les formats de mdp
-
-*/
 -- Script de restauration de l'application "GSB Frais"
 
 -- Administration de la base de données
