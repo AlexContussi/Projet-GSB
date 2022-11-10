@@ -1,11 +1,11 @@
 -- Script de restauration de l'application "GSB Frais"
 
 -- Administration de la base de données
-CREATE DATABASE gsb_frais ;
+CREATE DATABASE gsb_frais_b3;
 GRANT SHOW DATABASES ON *.* TO userGsb@localhost IDENTIFIED BY 'secret';
 GRANT ALL PRIVILEGES ON `gsb_frais`.* TO userGsb@localhost;
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-USE gsb_frais ;
+USE gsb_frais_b3 ;
 
 -- Création de la structure de la base de données
 CREATE TABLE IF NOT EXISTS fraisforfait (
@@ -21,6 +21,13 @@ CREATE TABLE IF NOT EXISTS etat (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
+CREATE TABLE IF NOT EXISTS gsb_role (
+    id int NOT NULL AUTO_INCREMENT,
+    libelle varchar(50) NOT NULL,
+    PRIMARY KEY (id)
+)ENGINE=InnoDB;
+
+
 CREATE TABLE IF NOT EXISTS visiteur (
   id int NOT NULL AUTO_INCREMENT,
   nom char(30) DEFAULT NULL,
@@ -35,15 +42,6 @@ CREATE TABLE IF NOT EXISTS visiteur (
   PRIMARY KEY (id),
   FOREIGN KEY (id_role) REFERENCES gsb_role(id)
 ) ENGINE=InnoDB;
-
-
-CREATE TABLE IF NOT EXISTS gsb_role (
-    id int NOT NULL AUTO_INCREMENT,
-    libelle varchar(50) NOT NULL,
-    PRIMARY KEY (id)
-)ENGINE=InnoDB;
-
-
 
 CREATE TABLE IF NOT EXISTS fichefrais (
   idvisiteur int NOT NULL,
@@ -122,8 +120,8 @@ INSERT INTO visiteur ( nom, prenom, login, mdp, adresse, cp, ville, dateembauche
 ('Eynde', 'Valérie', 'veynde', 'i7sn3', '3 Grand Place', '13015', 'Marseille', '1999-11-01',1),
 ('Finck', 'Jacques', 'jfinck', 'mpb3t', '10 avenue du Prado', '13002', 'Marseille', '2001-11-10',1),
 ('Frémont', 'Fernande', 'ffremont', 'xs5tq', '4 route de la mer', '13012', 'Allauh', '1998-10-01',1),
-('Gest', 'Alain', 'agest', 'dywvt', '30 avenue de la mer', '13025', 'Berre', '1985-11-01',1);
-('Bertin', 'Alexis', 'abertin', 'a7ghy', '18 avenue colbert', '83000', 'Toulon', '2003-09-05',2);
+('Gest', 'Alain', 'agest', 'dywvt', '30 avenue de la mer', '13025', 'Berre', '1985-11-01',1),
+('Bertin', 'Alexis', 'abertin', 'a7ghy', '18 avenue colbert', '83000', 'Toulon', '2003-09-05',2),
 ('Contussi', 'Alex', 'acontussi', 'b7zs5', '113 boulevard marc chagall ', '83390', 'Cuers', '2000-03-01',2);
 
 
