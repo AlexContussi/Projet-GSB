@@ -123,6 +123,8 @@ INSERT INTO visiteur ( nom, prenom, login, mdp, adresse, cp, ville, dateembauche
 ('Finck', 'Jacques', 'jfinck', 'mpb3t', '10 avenue du Prado', '13002', 'Marseille', '2001-11-10',1),
 ('Frémont', 'Fernande', 'ffremont', 'xs5tq', '4 route de la mer', '13012', 'Allauh', '1998-10-01',1),
 ('Gest', 'Alain', 'agest', 'dywvt', '30 avenue de la mer', '13025', 'Berre', '1985-11-01',1);
+('Bertin', 'Alexis', 'abertin', 'a7ghy', '18 avenue colbert', '83000', 'Toulon', '2003-09-05',2);
+('Contussi', 'Alex', 'acontussi', 'b7zs5', '113 boulevard marc chagall ', '83390', 'Cuers', '2000-03-01',2);
 
 
 
