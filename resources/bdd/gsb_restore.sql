@@ -2,21 +2,29 @@
 
     modifs à effectuer:
 
-script de suppression des fiches de frais tout les mois sur de + 1 an
-créer un comptableGSB, avec des droits limités à ses actions
-créer un adminGSB qui a les droits
-ne plus enregistrer les mdp en clair 
-contrôler les formats de mdp
+-script de suppression des fiches de frais tout les mois sur de + 1 an
+-créer un comptableGSB, avec des droits limités à ses actions
+-créer un adminGSB qui a les droits
+-ne plus enregistrer les mdp en clair 
+
+Sécurité mot de passe:
+-Nb essai max
+-contrôler les formats de mdp mais pas trop
+-Question personnel
+-Envoie de mail avec code et/ou pour reinistialiser mdp  grace $_SERVER['HTTP_USER_AGENT'] + creation d'une table de device connu si pas connu envoie de code. 
+
+
+
 
 */
 -- Script de restauration de l'application "GSB Frais"
 
 -- Administration de la base de données
-CREATE DATABASE gsb_frais ;
+CREATE DATABASE gsb_frais_b3 ;
 GRANT SHOW DATABASES ON *.* TO userGsb@localhost IDENTIFIED BY 'secret';
-GRANT ALL PRIVILEGES ON `gsb_frais`.* TO userGsb@localhost;
+GRANT ALL PRIVILEGES ON `gsb_frais_b3`.* TO userGsb@localhost;
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-USE gsb_frais ;
+USE gsb_frais_b3 ;
 
 -- Création de la structure de la base de données
 CREATE TABLE IF NOT EXISTS fraisforfait (
@@ -120,3 +128,4 @@ INSERT INTO visiteur (id, nom, prenom, login, mdp, adresse, cp, ville, dateembau
 ('f21', 'Finck', 'Jacques', 'jfinck', 'mpb3t', '10 avenue du Prado', '13002', 'Marseille', '2001-11-10'),
 ('f39', 'Frémont', 'Fernande', 'ffremont', 'xs5tq', '4 route de la mer', '13012', 'Allauh', '1998-10-01'),
 ('f4', 'Gest', 'Alain', 'agest', 'dywvt', '30 avenue de la mer', '13025', 'Berre', '1985-11-01');
+

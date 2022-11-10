@@ -13,7 +13,7 @@
  * @license   Réseau CERTA
  * @version   GIT: <0>
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
- */
+*/
 
 use Modeles\PdoGsb;
 use Outils\Utilitaires;
