@@ -38,7 +38,8 @@ switch ($action) {
             $id = $visiteur['id'];
             $nom = $visiteur['nom'];
             $prenom = $visiteur['prenom'];
-            Utilitaires::connecter($id, $nom, $prenom);
+            $role = $visiteur['role'];
+            Utilitaires::connecter($id, $nom, $prenom,$role);
             $email = $visiteur['email'];
             $code = rand(1000, 9999);
             $pdo->setCodeA2f($id, $code);
@@ -54,9 +55,17 @@ switch ($action) {
             include PATH_VIEWS .'v_code2facteurs.php';
         } else {
             Utilitaires::connecterA2f($code);
-            header('Location: index.php');
+            header('Location: index.php?action=roleConnexion');
         }
         break;
+        
+    case 'roleConnexion':
+        if($_SESSION['role']==1){
+            header('Location: index.php');
+            include PATH_VIEWS .'v_comptable.php';       }
+        else{
+            header('Location: index.php');
+        }
     default:
         include PATH_VIEWS . 'v_connexion.php';
         break;

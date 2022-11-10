@@ -91,7 +91,7 @@ class PdoGsb {
         $requetePrepare = $this->connexion->prepare(
                 'SELECT visiteur.id AS id, visiteur.nom AS nom, '
 
-                . 'visiteur.prenom AS prenom, visiteur.email as email  '
+                . 'visiteur.prenom AS prenom, visiteur.email as email visiteur.id_role as role  '
                 . 'FROM visiteur '
                 . 'WHERE visiteur.login = :unLogin '
         );
