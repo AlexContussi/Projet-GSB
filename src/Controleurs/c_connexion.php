@@ -14,7 +14,6 @@
  * @version   GIT: <0>
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
-
 use Outils\Utilitaires;
 
 $action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -29,15 +28,19 @@ switch ($action) {
     case 'valideConnexion':
         $login = filter_input(INPUT_POST, 'login', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $mdp = filter_input(INPUT_POST, 'mdp', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
         $visiteur = $pdo->getInfosVisiteur($login);
-        if (!is_array($visiteur)) {
+        if (!password_verify($mdp, $pdo->getMdpVisiteur($login))) {
             Utilitaires::ajouterErreur('Login ou mot de passe incorrect');
             include PATH_VIEWS . 'v_erreurs.php';
             include PATH_VIEWS . 'v_connexion.php';
         } else {
+
+            $visiteur = $pdo->getInfosVisiteur($login);
             $id = $visiteur['id'];
             $nom = $visiteur['nom'];
             $prenom = $visiteur['prenom'];
+
             $role= $visiteur['role'];
             Utilitaires::connecter($id, $nom, $prenom,$role);
             //header('Location: index.php');
@@ -46,6 +49,7 @@ switch ($action) {
             $pdo->setCodeA2f($id,$code);
             mail($email, '[GSB-AppliFrais] Code de vérification', "Code : $code");
             include PATH_VIEWS . 'v_code2facteurs.php';
+
         }
         break;
     case 'valideA2fConnexion':
@@ -53,6 +57,7 @@ switch ($action) {
         if ($pdo->getCodeVisiteur($_SESSION['idVisiteur']) !== $code) {
             Utilitaires::ajouterErreur('Code de vérification incorrect');
             include PATH_VIEWS . 'v_erreurs.php';
+
             include PATH_VIEWS . 'v_code2facteurs.php';
         } else {
             Utilitaires::connecterA2f($code);
@@ -63,9 +68,20 @@ switch ($action) {
             else{
                  header('Location: index.php');
             }
+
         }
         break;
+        
+    case 'roleConnexion':
+        if($_SESSION['role']==1){
+            header('Location: index.php');
+            include PATH_VIEWS .'v_comptable.php';       }
+        else{
+            header('Location: index.php');
+        }
     default:
         include PATH_VIEWS . 'v_connexion.php';
         break;
 }
+
+

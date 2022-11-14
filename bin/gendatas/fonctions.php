@@ -378,3 +378,16 @@ function majFicheFrais($pdo)
         $pdo->exec($req);
     }
 }
+
+function hashMdpBcrypt($pdo) {
+        $req = 'SELECT id, mdp FROM visiteur ';
+        $res = $pdo->query($req);
+        $lesLignes = $res->fetchAll();
+        $nbLignes = count($lesLignes);
+        for ($i = 0; $i < $nbLignes; $i++) {
+            $mdp = password_hash($lesLignes[$i]['mdp'], PASSWORD_DEFAULT);
+            $id = $lesLignes[$i]['id'];
+            $req2 = "UPDATE visiteur set mdp = '$mdp' where id='$id'";
+            $res2 = $pdo->query($req2);
+        }
+    }
