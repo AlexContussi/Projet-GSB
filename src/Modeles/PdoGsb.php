@@ -89,13 +89,15 @@ class PdoGsb {
     public function getInfosVisiteur($login): array|bool
     {
         $requetePrepare = $this->connexion->prepare(
-                'SELECT visiteur.id AS id, visiteur.nom AS nom, '
+                'SELECT visiteur.id AS id, visiteur.nom AS nom, '       
+                . 'visiteur.prenom AS prenom, visiteur.email as email,  '
+                . 'visiteur.id_role AS role '
 
-                . 'visiteur.prenom AS prenom, visiteur.email as email visiteur.id_role as role  '
                 . 'FROM visiteur '
                 . 'WHERE visiteur.login = :unLogin '
         );
         $requetePrepare->bindParam(':unLogin', $login, PDO::PARAM_STR);
+
         $requetePrepare->execute();
         return $requetePrepare->fetch();
     }
@@ -492,6 +494,26 @@ class PdoGsb {
         $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
+    }
+    public function setCodeA2f($id, $code) {
+        $requetePrepare = $this->connexion->prepare(
+            'UPDATE visiteur '
+          . 'SET code = :unCode '
+          . 'WHERE visiteur.id = :unIdVisiteur '
+        );
+        $requetePrepare->bindParam(':unCode', $code, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unIdVisiteur', $id, PDO::PARAM_STR);
+        $requetePrepare->execute();
+    }
+    public function getCodeVisiteur($id) {
+        $requetePrepare =  $this->connexion->prepare(
+            'SELECT visiteur.code AS code '
+          . 'FROM visiteur '
+          . 'WHERE visiteur.id = :unId'
+        );
+        $requetePrepare->bindParam(':unId', $id, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        return $requetePrepare->fetch()['code'];
     }
 
 }
