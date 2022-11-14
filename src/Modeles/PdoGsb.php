@@ -112,29 +112,6 @@ class PdoGsb {
         $requetePrepare->execute();
         return $requetePrepare->fetch(PDO::FETCH_OBJ)->mdp;
     }
-
-    public function setCodeA2f($id, $code) {
-        $requetePrepare = $this->connexion->prepare(
-                'UPDATE visiteur '
-                . 'SET code = :unCode '
-                . 'WHERE visiteur.id = :unIdVisiteur '
-        );
-        $requetePrepare->bindParam(':unCode', $code, PDO::PARAM_STR);
-        $requetePrepare->bindParam(':unIdVisiteur', $id, PDO::PARAM_STR);
-        $requetePrepare->execute();
-    }
-
-    public function getCodeVisiteur($id) {
-        $requetePrepare = $this->connexion->prepare(
-                'SELECT visiteur.code AS code '
-                . 'FROM visiteur '
-                . 'WHERE visiteur.id = :unId'
-        );
-        $requetePrepare->bindParam(':unId', $id, PDO::PARAM_STR);
-        $requetePrepare->execute();
-        return $requetePrepare->fetch()['code'];
-    }
-
     /**
      * Retourne sous forme d'un tableau associatif toutes les lignes de frais
      * hors forfait concernées par les deux arguments.
