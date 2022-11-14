@@ -26,10 +26,10 @@
     <div class="col-md-12">
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h3 class="panel-title">
+                <h1 class="panel-title">
                     <span class="glyphicon glyphicon-bookmark"></span>
                     Navigation
-                </h3>
+                </h1>
             </div>
             <div class="panel-body">
                 <div class="row">
