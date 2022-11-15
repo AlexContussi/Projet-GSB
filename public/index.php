@@ -25,14 +25,18 @@ session_start();
 
 $pdo = PdoGsb::getPdoGsb();
 $estConnecte = Utilitaires::estConnecte();
+$role = Utilitaires::aUnRole();
 
 require PATH_VIEWS . 'v_entete.php';
 
 $uc = filter_input(INPUT_GET, 'uc', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-if ($uc && !$estConnecte) {
+if (!$uc && !$estConnecte) {
     $uc = 'connexion';
-} elseif (empty($uc)) {
+} elseif (empty($uc) && $estConnecte && $role == 2) {
+    $uc = 'comptable'; 
+}
+elseif (empty($uc) && $estConnecte && $role == 1){
     $uc = 'accueil';
 }
 
@@ -48,6 +52,9 @@ switch ($uc) {
         break;
     case 'etatFrais':
         include PATH_CTRLS . 'c_etatFrais.php';
+        break;
+    case 'comptable':
+        include PATH_CTRLS . 'c_accueil_comptable.php';
         break;
     case 'deconnexion':
         include PATH_CTRLS . 'c_deconnexion.php';

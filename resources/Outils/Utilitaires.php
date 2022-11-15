@@ -35,7 +35,7 @@ abstract class Utilitaires {
         $_SESSION['codeA2f'] = $code;
     }
     
-    
+
     
     /**
      * Enregistre dans une variable session les infos d'un visiteur
@@ -56,6 +56,13 @@ abstract class Utilitaires {
         $_SESSION['role'] = $role;
     }
 
+    public static function aUnRole(){
+        if(isset($_SESSION['role'])){
+             return ($_SESSION['role']);
+        }
+       
+    }
+    
     /**
      * Détruit la session active
      *
