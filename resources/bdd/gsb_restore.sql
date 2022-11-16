@@ -1,13 +1,37 @@
+/* 
+
+modifs à effectuer:
+
+-script de suppression des fiches de frais tout les mois sur de + 1 an
+-créer un comptableGSB, avec des droits limités à ses actions
+-créer un adminGSB qui a les droits
+-ne plus enregistrer les mdp en clair 
+
+Sécurité mot de passe:
+-Nb essai max
+-contrôler les formats de mdp mais pas trop
+-Question personnel
+-Envoie de mail avec code et/ou pour reinistialiser mdp  grace $_SERVER['HTTP_USER_AGENT'] + creation d'une table de device connu si pas connu envoie de code. 
+
+
+
+
+*/
+-- Script de restauration de l'application "GSB Frais"
+
+
+DROP DATABASE gsb_frais_b3;
 -- Script de restauration de l'application "GSB Frais"
 
 -- Administration de la base de données
-CREATE DATABASE gsb_frais ;
-GRANT SHOW DATABASES ON *.* TO userGsb@localhost IDENTIFIED BY 'secret';
-GRANT ALL PRIVILEGES ON `gsb_frais`.* TO userGsb@localhost;
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-USE gsb_frais ;
 
--- Création de la structure de la base de données
+CREATE DATABASE gsb_frais_b3 ;
+GRANT SHOW DATABASES ON *.* TO userGsb@localhost IDENTIFIED BY 'secret';
+GRANT ALL PRIVILEGES ON `gsb_frais_b3`.* TO userGsb@localhost;
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+USE gsb_frais_b3 ;
+
+-- CrÃƒÂ©ation de la structure de la base de donnÃƒÂ©es
 CREATE TABLE IF NOT EXISTS fraisforfait (
   id char(3) NOT NULL,
   libelle char(20) DEFAULT NULL,
@@ -21,8 +45,15 @@ CREATE TABLE IF NOT EXISTS etat (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
+CREATE TABLE IF NOT EXISTS gsb_role (
+    id int NOT NULL AUTO_INCREMENT,
+    libelle varchar(50) NOT NULL,
+    PRIMARY KEY (id)
+)ENGINE=InnoDB;
+
+
 CREATE TABLE IF NOT EXISTS visiteur (
-  id char(4) NOT NULL,
+  id int NOT NULL AUTO_INCREMENT,
   nom char(30) DEFAULT NULL,
   prenom char(30)  DEFAULT NULL, 
   login char(20) DEFAULT NULL,
@@ -31,11 +62,16 @@ CREATE TABLE IF NOT EXISTS visiteur (
   cp char(5) DEFAULT NULL,
   ville char(30) DEFAULT NULL,
   dateembauche date DEFAULT NULL,
-  PRIMARY KEY (id)
+  email TEXT NULL,
+  code CHAR(4) DEFAULT NULL,
+  id_role int NOT NULL,  
+  PRIMARY KEY (id),
+  FOREIGN KEY (id_role) REFERENCES gsb_role(id)
 ) ENGINE=InnoDB;
 
+
 CREATE TABLE IF NOT EXISTS fichefrais (
-  idvisiteur char(4) NOT NULL,
+  idvisiteur int NOT NULL,
   mois char(6) NOT NULL,
   nbjustificatifs int(11) DEFAULT NULL,
   montantvalide decimal(10,2) DEFAULT NULL,
@@ -47,7 +83,7 @@ CREATE TABLE IF NOT EXISTS fichefrais (
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS lignefraisforfait (
-  idvisiteur char(4) NOT NULL,
+  idvisiteur int NOT NULL,
   mois char(6) NOT NULL,
   idfraisforfait char(3) NOT NULL,
   quantite int(11) DEFAULT NULL,
@@ -58,7 +94,7 @@ CREATE TABLE IF NOT EXISTS lignefraisforfait (
 
 CREATE TABLE IF NOT EXISTS lignefraishorsforfait (
   id int(11) NOT NULL auto_increment,
-  idvisiteur char(4) NOT NULL,
+  idvisiteur int NOT NULL,
   mois char(6) NOT NULL,
   libelle varchar(100) DEFAULT NULL,
   date date DEFAULT NULL,
@@ -67,14 +103,15 @@ CREATE TABLE IF NOT EXISTS lignefraishorsforfait (
   FOREIGN KEY (idvisiteur, mois) REFERENCES fichefrais(idvisiteur, mois)
 ) ENGINE=InnoDB;
 
--- Alimentation des données paramètres
+-- Alimentation des donnÃƒÂ©es paramÃƒÂ¨tres
 INSERT INTO fraisforfait (id, libelle, montant) VALUES
 ('ETP', 'Forfait Etape', 110.00),
-('KM', 'Frais Kilométrique', 0.62),
-('NUI', 'Nuitée Hôtel', 80.00),
+('KM', 'Frais KilomÃƒÂ©trique', 0.62),
+('NUI', 'NuitÃƒÂ©e HÃƒÂ´tel', 80.00),
 ('REP', 'Repas Restaurant', 25.00);
 
 INSERT INTO etat (id, libelle) VALUES
+
 ('RB', 'Remboursée'),
 ('CL', 'Saisie clôturée'),
 ('CR', 'Fiche créée, saisie en cours'),
@@ -109,3 +146,5 @@ INSERT INTO visiteur (id, nom, prenom, login, mdp, adresse, cp, ville, dateembau
 ('f21', 'Finck', 'Jacques', 'jfinck', 'mpb3t', '10 avenue du Prado', '13002', 'Marseille', '2001-11-10'),
 ('f39', 'Frémont', 'Fernande', 'ffremont', 'xs5tq', '4 route de la mer', '13012', 'Allauh', '1998-10-01'),
 ('f4', 'Gest', 'Alain', 'agest', 'dywvt', '30 avenue de la mer', '13025', 'Berre', '1985-11-01');
+
+
