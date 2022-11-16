@@ -53,6 +53,9 @@ switch ($uc) {
     case 'etatFrais':
         include PATH_CTRLS . 'c_etatFrais.php';
         break;
+    case 'afficheFraisClient':
+        include PATH_CTRLS . 'c_accueil_comptable.php';
+        break;
     case 'comptable':
         include PATH_CTRLS . 'c_accueil_comptable.php';
         break;

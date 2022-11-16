@@ -493,5 +493,11 @@ class PdoGsb {
         $requetePrepare->execute();
         return $requetePrepare->fetch()['code'];
     }
-
+    public function getAllVisiteur() {
+        $requetePrepare =  $this->connexion->prepare(
+            'SELECT visiteur.id,visiteur.nom,visiteur.prenom FROM visiteur WHERE id_role= 1'
+        );
+        $requetePrepare->execute();
+        return $requetePrepare->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
