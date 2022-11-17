@@ -126,8 +126,6 @@ INSERT INTO visiteur ( nom, prenom, login, mdp, adresse, cp, ville, dateembauche
 
 
 
-
-
 ALTER TABLE visiteur
 MODIFY mdp CHAR(255) ;
 

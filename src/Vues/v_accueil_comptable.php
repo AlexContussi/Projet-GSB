@@ -11,7 +11,7 @@
 <form action="index.php?uc=afficheFraisClient&action=voirFrais"  method="post" role="form">
     
     <label for="selectVisiteur">Choisir le visiteur</label>
-    <select id="selectVisiteur">
+    <select id="selectVisiteur" name="idvisiteur">
         <?php 
         foreach($visiteurs as $visiteur) {
         ?>  
@@ -22,7 +22,7 @@
     </select>
 
     <label for="selectDate">Date : </label>
-    <select id="selectDate">
+    <select id="selectDate" name="dateselected">
         <option value="<?php echo $dateOfTheDay->format('Ym') ?>" selected><?php echo $dateOfTheDay->format('m/Y') ?></option>
         <?php 
         for($index = 1; $index < sizeof($dates); $index++) {  
@@ -39,33 +39,83 @@
 if(isset($ok)){
 ?>
     <div class="row">    
-        <h2>Renseigner ma fiche de frais</h2>
+        <h2 class="colorComptable">Valider la fiche de frais</h2>
         <h3>Eléments forfaitisés</h3>
         <div class="col-md-4">
             <form method="post" action="index.php?uc=afficheFraisClient&action=validerMajFraisForfait" role="form">
-                <fieldset>       
-                    <?php
-                    foreach ($lesFraisForfait as $unFrais) {
-                        $idFrais = $unFrais['idfrais'];
-                        $libelle = htmlspecialchars($unFrais['libelle']);
-                        $quantite = $unFrais['quantite']; ?>
-                        <div class="form-group">
-                            <label for="idFrais"><?php echo $libelle ?></label>
-                            <input type="text" id="idFrais"
-                                   name="lesFrais[<?php echo $idFrais ?>]"
-                                   size="10" maxlength="5" 
-                                   value="<?php echo $quantite ?>" 
-                                   class="form-control">
-                        </div>
-                        <?php
-                    }
-                    ?>
+                <fieldset>   
+                    <div class="form-group">
+                        <label for="etape">Forfait Etape</label>
+                        <input type="text" id="etape" name="etape" size="10" maxlength="5" value="<?php echo $etp ?>" class="form-control">
+                        
+                        <label for="km">Frais Kilomètrique</label>
+                        <input type="text" id="km" name="km" size="10" maxlength="5" value="<?php echo $km ?>" class="form-control">
+                        
+                        <label for="nui">Nuitée Hôtel</label>
+                        <input type="text" id="nui" name="nui" size="10" maxlength="5" value="<?php echo $nui ?>"class="form-control">
+                        
+                        <label for="rep">Repas Restaurant</label>
+                        <input type="text" id="rep" name="rep" size="10" maxlength="5" value="<?php echo $rep ?>" class="form-control">
+                    </div>   
                     <button class="btn btn-success" type="submit">Corriger</button>
                     <button class="btn btn-danger" type="reset">Réinitialiser</button>
                 </fieldset>
             </form>
         </div>
     </div>
+
+    <div class="row">
+        <div class="">
+            <div class="backgroundComptable">Descriptif des éléments hors forfait</div>
+            <table class="table table-bordered table-responsive">
+                <thead>
+                    <tr>
+                        <th class="date">Date</th>
+                        <th class="libelle">Libellé</th>  
+                        <th class="montant">Montant</th>  
+                        <th class="action">&nbsp;</th> 
+                    </tr>
+                </thead>  
+                <tbody>
+                <?php
+                foreach ($lesFraisHorsForfait as $unFraisHorsForfait) {
+                    $libelle = htmlspecialchars($unFraisHorsForfait['libelle']);
+                    $date = $unFraisHorsForfait['date'];
+                    $montant = $unFraisHorsForfait['montant'];
+                    $id = $unFraisHorsForfait['id']; ?>           
+                    <tr>
+                        <td><input value="<?php echo $date ?>"/></td>
+                        <td><input value="<?php echo $libelle ?>"/></td>
+                        <td><input value="<?php echo $montant ?>"/></td>
+                        <td>
+                           
+                        </td>
+                    </tr>
+                    <?php
+                }
+                ?>
+                </tbody>  
+            </table>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <?php
 }
 ?>

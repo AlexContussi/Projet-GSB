@@ -4,11 +4,16 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/alex.contussi/Documents/Nouveau%20dossier%20(2)/gil/Projet-GSB/public/index.php</file>
+            <file>file:/C:/Users/alex.contussi/Documents/Nouveau%20dossier%20(2)/gil/Projet-GSB/vendor/autoload.php</file>
+            <file>file:/C:/Users/alex.contussi/Documents/Nouveau%20dossier%20(2)/gil/Projet-GSB/resources/bdd/gsb_restore.sql</file>
             <file>file:/C:/Users/alex.contussi/Documents/Nouveau%20dossier%20(2)/gil/Projet-GSB/src/Vues/v_accueil_comptable.php</file>
             <file>file:/C:/Users/alex.contussi/Documents/Nouveau%20dossier%20(2)/gil/Projet-GSB/src/Controleurs/c_accueil_comptable.php</file>
+            <file>file:/C:/Users/alex.contussi/Documents/Nouveau%20dossier%20(2)/gil/Projet-GSB/resources/Outils/Utilitaires.php</file>
             <file>file:/C:/Users/alex.contussi/Documents/Nouveau%20dossier%20(2)/gil/Projet-GSB/src/Controleurs/c_etatFrais.php</file>
+            <file>file:/C:/Users/alex.contussi/Documents/Nouveau%20dossier%20(2)/gil/Projet-GSB/src/Controleurs/c_gererFrais.php</file>
             <file>file:/C:/Users/alex.contussi/Documents/Nouveau%20dossier%20(2)/gil/Projet-GSB/src/Modeles/PdoGsb.php</file>
             <file>file:/C:/Users/alex.contussi/Documents/Nouveau%20dossier%20(2)/gil/Projet-GSB/src/Vues/v_listeMois.php</file>
+            <file>file:/C:/Users/alex.contussi/Documents/Nouveau%20dossier%20(2)/gil/Projet-GSB/src/Vues/v_listeFraisForfait.php</file>
         </group>
     </open-files>
 </project-private>

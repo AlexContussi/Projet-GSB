@@ -500,4 +500,19 @@ class PdoGsb {
         $requetePrepare->execute();
         return $requetePrepare->fetchAll(PDO::FETCH_ASSOC);
     }
+    
+    
+    public function getLignesFicheFrais($idVisiteur, $mois): array {
+        $requetePrepare = $this->connexion->prepare(
+                'SELECT * '
+                . 'FROM lignefraisforfait '
+                . 'WHERE lignefraisforfait.idvisiteur = :unIdVisiteur '
+                . 'AND lignefraisforfait.mois = :unMois'
+        );
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        $laLigne = $requetePrepare->fetchAll();
+        return $laLigne;
+    }
 }
