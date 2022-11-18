@@ -17,23 +17,11 @@
 
 use Outils\Utilitaires;
 
-$action = filter_input(INPUT_GET, 'action', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-if (!$uc) {
-    $uc = 'demandeconnexion';
-}
-
-switch ($action) {
-    case 'demandeDeconnexion':
         if (Utilitaires::estConnecte()) {
             Utilitaires::deconnecter();
             include PATH_VIEWS . 'v_deconnexion.php';
         } else {
             Utilitaires::ajouterErreur("Vous n'êtes pas connecté");
+            header("Location : URL=/");
             include PATH_VIEWS . 'v_erreurs.php';
-            include PATH_VIEWS . 'v_connexion.php';
         }
-        break;
-    default:
-        include PATH_VIEWS . 'v_connexion.php';
-        break;
-}

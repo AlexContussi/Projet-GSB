@@ -16,6 +16,18 @@
  */
 
 ?>
+ <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta charset="UTF-8">
+        <title>Intranet du Laboratoire Galaxy-Swiss Bourdin</title> 
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="./styles/bootstrap/bootstrap.css" rel="stylesheet">
+        <link href="./styles/style.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container">
 <hr>
 <div class="row">
     <div class="panel panel-info">
@@ -41,7 +53,7 @@
                     <td> <?php echo $libelle ?></td>
                     <td><?php echo $montant ?></td>
                     <td>
-                        <a href="index.php?uc=gererFrais&action=supprimerFrais&idFrais=<?php echo $id ?>" 
+                        <a href="/gererfrais/supprimerFrais/<?php echo $id ?>" 
                            onclick="return confirm('Voulez-vous vraiment supprimer ce frais?');">
                             Supprimer ce frais
                         </a>
@@ -57,7 +69,7 @@
 <div class="row">
     <h3>Nouvel élément hors forfait</h3>
     <div class="col-md-4">
-        <form action="index.php?uc=gererFrais&action=validerCreationFrais" 
+        <form action="/gererfrais/validerCreationFrais/" 
               method="post" role="form">
             <div class="form-group">
                 <label for="txtDateHF">Date (jj/mm/aaaa): </label>

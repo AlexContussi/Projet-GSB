@@ -16,6 +16,18 @@
  */
 
 ?>
+ <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta charset="UTF-8">
+        <title>Intranet du Laboratoire Galaxy-Swiss Bourdin</title> 
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="./styles/bootstrap/bootstrap.css" rel="stylesheet">
+        <link href="./styles/style.css" rel="stylesheet">
+    </head>
+    <body>
+<div class="container">
 <div class="row">    
     <h2>Renseigner ma fiche de frais du mois 
         <?php echo $numMois . '-' . $numAnnee ?>
@@ -23,7 +35,7 @@
     <h3>Eléments forfaitisés</h3>
     <div class="col-md-4">
         <form method="post" 
-              action="index.php?uc=gererFrais&action=validerMajFraisForfait" 
+              action="gererfrais/validerMajFraisForfait" 
               role="form">
             <fieldset>       
                 <?php
@@ -48,3 +60,4 @@
         </form>
     </div>
 </div>
+    

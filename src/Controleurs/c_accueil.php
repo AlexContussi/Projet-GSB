@@ -15,8 +15,11 @@
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
 
+use Outils\Utilitaires;
+$estConnecte = Utilitaires::estConnecte();
+
 if ($estConnecte) {
     include_once PATH_VIEWS . 'v_entete.php';
 } else {
-    include PATH_VIEWS . 'v_connexion.php';
+    header("Location : URL=/");
 }
