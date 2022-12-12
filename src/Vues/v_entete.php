@@ -124,4 +124,5 @@ $role = $_SESSION['role']
                          title="Laboratoire Galaxy-Swiss Bourdin">
                 </h1>
                 <?php
-            }
+            }   
+?>

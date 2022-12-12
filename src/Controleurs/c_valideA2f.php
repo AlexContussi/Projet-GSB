@@ -6,8 +6,9 @@ use Modeles\PdoGsb;
  $code = filter_input(INPUT_POST, 'code', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         if ($pdo->getCodeVisiteur($_SESSION['idVisiteur']) !== $code) {
             Utilitaires::ajouterErreur('Code de vérification incorrect');
-            include PATH_VIEWS . 'v_erreurs.php';
+            Utilitaires::journaliser("Code de vérification incorrect à l'adresse ip: " .$_SERVER['REMOTE_ADDR']);
             include PATH_VIEWS .'v_code2facteurs.php';
+            include PATH_VIEWS . 'v_erreurs.php';
         } else {
             Utilitaires::connecterA2f($code);
             header("Refresh: 0;URL=/accueil");
