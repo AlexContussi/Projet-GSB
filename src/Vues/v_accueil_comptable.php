@@ -45,6 +45,8 @@ if(isset($ok)){
             <form method="post" action="index.php?uc=afficheFraisClient&action=validerMajFraisForfait" role="form">
                 <fieldset>   
                     <div class="form-group">
+                        <input name="dateselected" value="<?php echo $dateselected ?>" hidden />
+                        <input name="idvisiteur" value="<?php echo $idvisiteur ?>" hidden />
                         <label for="etape">Forfait Etape</label>
                         <input type="text" id="etape" name="etape" size="10" maxlength="5" value="<?php echo $etp ?>" class="form-control">
                         
@@ -79,42 +81,40 @@ if(isset($ok)){
                 <tbody>
                 <?php
                 foreach ($lesFraisHorsForfait as $unFraisHorsForfait) {
-                    $libelle = htmlspecialchars($unFraisHorsForfait['libelle']);
-                    $date = $unFraisHorsForfait['date'];
-                    $montant = $unFraisHorsForfait['montant'];
-                    $id = $unFraisHorsForfait['id']; ?>           
-                    <tr>
-                        <td><input value="<?php echo $date ?>"/></td>
-                        <td><input value="<?php echo $libelle ?>"/></td>
-                        <td><input value="<?php echo $montant ?>"/></td>
-                        <td>
-                           
-                        </td>
-                    </tr>
-                    <?php
+                    ?>
+                    <form action="index.php?uc=afficheFraisClient&action=modifHorsForfait"  method="post" role="form">
+                        <tr>
+                            <td>
+                                <input name="id" hidden value="<?php echo $unFraisHorsForfait['id'] ?>"/>
+                                <input name="date" value="<?php echo $unFraisHorsForfait['date'] ?>"/>
+                            </td>
+                            <td><input name="libelle" value="<?php echo htmlspecialchars($unFraisHorsForfait['libelle']) ?>"/></td>
+                            <td><input name="montant" value="<?php echo $unFraisHorsForfait['montant'] ?>"/></td>
+                            <td>
+                                <button class="btn btn-success" type="submit">Corriger</button>
+                                <button class="btn btn-danger" type="reset">Réinitialiser</button>
+                            </td>
+                        </tr>
+                    </form>
+                    <?php  
                 }
                 ?>
                 </tbody>  
             </table>
         </div>
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<form method="post" action="index.php?uc=afficheFraisClient&action=confirmerValidationFicheFrais" role="form">
+    <div>
+        <label for="nbJustificatifs">
+            Nombre de justificatifs :
+            <input class="form-control" name="nbJustificatifs" id="nbJustificatifs" type="number"size="10" maxlength="5" min="0" value="<?php echo $info->getNbjustificatifs() ?>"   />
+        </label>
+    </div>
+    <div>
+        <button class="btn btn-success" type="submit">Corriger</button>
+        <button class="btn btn-danger" type="reset">Réinitialiser</button>
+    </div>
+</form>
 
 <?php
 }
@@ -127,5 +127,5 @@ if(isset($ok)){
 $(function(){
     $("#selectVisiteur").select2();
 }); 
- 
+
 </script>

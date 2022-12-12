@@ -257,4 +257,7 @@ abstract class Utilitaires {
         }
     }
 
+    public static function journaliser($message):void{
+        error_log($message);
+    }
 }
