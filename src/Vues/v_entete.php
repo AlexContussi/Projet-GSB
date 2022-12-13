@@ -52,14 +52,14 @@ $role = $_SESSION['role']
                                     Accueil
                                 </a>
                             </li>
-                            <li <?php if ($_SERVER['REQUEST_URI'] == '/gererfrais') { ?>class="active"<?php } ?>>
-                                <a href="gererfrais">
+                            <li <?php if ($_SERVER['REQUEST_URI'] == '/gererFrais') { ?>class="active"<?php } ?>>
+                                <a href="gererFrais">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                     Renseigner la fiche de frais
                                 </a>
                             </li>
-                            <li <?php if ($_SERVER['REQUEST_URI'] == '/etatfrais' || $_SERVER['REQUEST_URI'] == '/voirEtatFrais' ) { ?>class="active"<?php } ?>>
-                                <a href="etatfrais">
+                            <li <?php if ($_SERVER['REQUEST_URI'] == '/etatFrais' || $_SERVER['REQUEST_URI'] == '/voirEtatFrais' ) { ?>class="active"<?php } ?>>
+                                <a href="etatFrais">
                                     <span class="glyphicon glyphicon-list-alt"></span>
                                     Afficher mes fiches de frais
                                 </a>
@@ -93,14 +93,14 @@ $role = $_SESSION['role']
                                     Accueil
                                 </a>
                             </li>
-                            <li <?php if ($_SERVER['REQUEST_URI'] == '/validerfrais') { ?>class="active active-comptable"<?php } ?>>
-                                <a href="validerfrais" class="header-comptable">
+                            <li <?php if ($_SERVER['REQUEST_URI'] == '/validerFrais') { ?>class="active active-comptable"<?php } ?>>
+                                <a href="validerFrais" class="header-comptable">
                                     <span class="glyphicon glyphicon-ok"></span> 
                                      Valider les fiches de frais
                                 </a>
                             </li>
-                            <li <?php if ($_SERVER['REQUEST_URI'] == '/suivrepaiement') { ?>class="active active-comptable"<?php } ?>>
-                                <a href="suivrepaiement" class="header-comptable">
+                            <li <?php if ($_SERVER['REQUEST_URI'] == '/suivrePaiement') { ?>class="active active-comptable"<?php } ?>>
+                                <a href="suivrePaiement" class="header-comptable">
                                    <span class="glyphicon glyphicon-euro"></span> 
                                      Suivre le paiement des fiches de frais
                                 </a>

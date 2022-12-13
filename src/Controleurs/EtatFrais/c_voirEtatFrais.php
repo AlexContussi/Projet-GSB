@@ -4,7 +4,7 @@ use Outils\Utilitaires;
 
 include PATH_VIEWS . 'v_entete.php';
 $pdo = PdoGsb::getPdoGsb();
-$idVisiteur = $_SESSION['idvisiteur'];
+$idVisiteur = $_SESSION['idVisiteur'];
 $leMois = filter_input(INPUT_POST, 'lstMois', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $lesMois = $pdo->getLesMoisDisponibles($idVisiteur);
 $moisASelectionner = $leMois;

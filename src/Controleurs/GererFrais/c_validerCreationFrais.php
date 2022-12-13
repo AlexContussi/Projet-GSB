@@ -14,8 +14,8 @@ $dateFrais = Utilitaires::dateAnglaisVersFrancais(
         Utilitaires::valideInfosFrais($dateFrais, $libelle, $montant);
         if (Utilitaires::nbErreurs() != 0) {
             include PATH_VIEWS . 'v_erreurs.php';
-            header("Refresh: 0;URL=/gererfrais");
+            header("Refresh: 0;URL=/gererFrais");
         } else {
-            header("Refresh: 0;URL=/gererfrais");
+            header("Refresh: 0;URL=/gererFrais");
             $pdo->creeNouveauFraisHorsForfait($idVisiteur, $mois, $libelle, $dateFrais, $montant);
         }

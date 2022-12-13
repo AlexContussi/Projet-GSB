@@ -3,7 +3,7 @@
 -- Administration de la base de données
 CREATE DATABASE gsb_frais_b3;
 GRANT SHOW DATABASES ON *.* TO userGsb@localhost IDENTIFIED BY 'secret';
-GRANT ALL PRIVILEGES ON `gsb_frais`.* TO userGsb@localhost;
+GRANT ALL PRIVILEGES ON `gsb_frais_b3`.* TO userGsb@localhost;
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 USE gsb_frais_b3 ;
 
@@ -87,7 +87,8 @@ INSERT INTO etat (id, libelle) VALUES
 ('RB', 'Remboursée'),
 ('CL', 'Saisie clôturée'),
 ('CR', 'Fiche créée, saisie en cours'),
-('VA', 'Validée et mise en paiement');
+('VA', 'Validée'),
+('MP', 'Mise en paiement');
 
 INSERT INTO gsb_role (libelle) VALUES ('visiteur'),('comptable');
 

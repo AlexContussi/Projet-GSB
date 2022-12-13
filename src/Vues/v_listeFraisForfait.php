@@ -35,7 +35,7 @@
     <h3>Eléments forfaitisés</h3>
     <div class="col-md-4">
         <form method="post" 
-              action="gererfrais/validerMajFraisForfait" 
+              action="gererFrais/validerMajFraisForfait" 
               role="form">
             <fieldset>       
                 <?php

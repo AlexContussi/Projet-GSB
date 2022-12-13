@@ -53,7 +53,7 @@
                     <td> <?php echo $libelle ?></td>
                     <td><?php echo $montant ?></td>
                     <td>
-                        <a href="/gererfrais/supprimerFrais/<?php echo $id ?>" 
+                        <a href="/gererFrais/supprimerFrais/<?php echo $id ?>" 
                            onclick="return confirm('Voulez-vous vraiment supprimer ce frais?');">
                             Supprimer ce frais
                         </a>
@@ -69,7 +69,7 @@
 <div class="row">
     <h3>Nouvel élément hors forfait</h3>
     <div class="col-md-4">
-        <form action="/gererfrais/validerCreationFrais/" 
+        <form action="/gererFrais/validerCreationFrais/" 
               method="post" role="form">
             <div class="form-group">
                 <label for="txtDateHF">Date (jj/mm/aaaa): </label>

@@ -473,7 +473,9 @@ class PdoGsb {
         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
         $requetePrepare->execute();
     }
-    public function setCodeA2f($id, $code) {
+
+
+    public function setCodeA2f($id, $code):  void {
         $requetePrepare = $this->connexion->prepare(
             'UPDATE visiteur '
           . 'SET code = :unCode '
@@ -483,7 +485,9 @@ class PdoGsb {
         $requetePrepare->bindParam(':unIdVisiteur', $id, PDO::PARAM_STR);
         $requetePrepare->execute();
     }
-    public function getCodeVisiteur($id) {
+
+
+    public function getCodeVisiteur($id): string {
         $requetePrepare =  $this->connexion->prepare(
             'SELECT visiteur.code AS code '
           . 'FROM visiteur '
@@ -494,4 +498,64 @@ class PdoGsb {
         return $requetePrepare->fetch()['code'];
     }
 
+    public function getFichesValidees(): array {
+        $requestPrepare = $this->connexion->prepare(
+            'SELECT fichefrais.idvisiteur, fichefrais.mois, fichefrais.montantvalide, '
+            . 'fichefrais.datemodif, fichefrais.idetat, visiteur.nom, visiteur.prenom '
+            . 'FROM fichefrais INNER JOIN visiteur on fichefrais.idvisiteur = visiteur.id '
+            . 'WHERE fichefrais.idetat = "VA"'
+        );
+        $requestPrepare->execute();
+        return $requestPrepare->fetchAll();
+    }
+    
+    public function getTotauxFicheFraisHorsForfait(int $idVisiteur, int $mois): float {
+        $requestPrepare = $this->connexion->prepare(
+                'select coalesce(sum(montant),0) as cumul from lignefraishorsforfait '
+                . "where lignefraishorsforfait.idvisiteur = :unId "
+                . "and lignefraishorsforfait.mois = :unMois ");
+        $requestPrepare->bindParam(':unId', $idVisiteur, PDO::PARAM_INT);
+        $requestPrepare->bindParam(':unMois', $mois, PDO::PARAM_INT);
+        $requestPrepare->execute();
+        $ligne1 = $requestPrepare->fetch();
+        $cumulMontantHF = $ligne1['cumul'];
+        return $cumulMontantHF;
+    }
+    
+    public function getUtilisateurFicheFrais(int $idVisiteur): array {
+        $requestPrepare = $this->connexion->prepare(
+                "select visiteur.nom, visiteur.prenom, visiteur.id from lignefraisforfait inner join visiteur on lignefraisforfait.idvisiteur=visiteur.id where lignefraisforfait.idvisiteur = :unId"
+                );
+        $requestPrepare->bindParam(':unId', $idVisiteur, PDO::PARAM_INT);
+        $requestPrepare->execute();
+        return $requestPrepare->fetch();
+    }
+    
+    public function getTotauxFicheFraisForfait(int $idVisiteur, int $mois): float {
+        $requestPrepare2 = $this->connexion->prepare(
+                'select coalesce(sum(lignefraisforfait.quantite * fraisforfait.montant), 0) '
+                . 'as cumul '
+                . 'from lignefraisforfait, fraisforfait '
+                . 'where lignefraisforfait.idfraisforfait = fraisforfait.id '
+                . "and lignefraisforfait.idvisiteur = :unId "
+                . "and lignefraisforfait.mois = :unMois ");
+        $requestPrepare2->bindParam(':unId', $idVisiteur, PDO::PARAM_INT);
+        $requestPrepare2->bindParam(':unMois', $mois, PDO::PARAM_INT);
+        $requestPrepare2->execute();
+        $ligne2 = $requestPrepare2->fetch();
+        $cumulMontantForfait = $ligne2['cumul'];
+        return $cumulMontantForfait;
+    }
+
+    public function setFicheFraisMiseEnPaiement(int $idVisiteur): void {
+        $date=(date("Y-m-d"));
+        $requestPrepare = $this->connexion->prepare(
+            "UPDATE fichefrais set idetat = 'MP', datemodif = :uneDate WHERE idvisiteur = :unId AND idetat = 'VA'"
+        );
+        $requestPrepare->bindParam(':unId', $idVisiteur, PDO::PARAM_INT);
+        $requestPrepare->bindParam(':uneDate', $date);
+        $requestPrepare->execute();
+    }
+
 }
+
