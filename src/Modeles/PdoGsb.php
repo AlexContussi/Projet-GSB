@@ -513,7 +513,8 @@ class PdoGsb {
         $requestPrepare = $this->connexion->prepare(
                 'select coalesce(sum(montant),0) as cumul from lignefraishorsforfait '
                 . "where lignefraishorsforfait.idvisiteur = :unId "
-                . "and lignefraishorsforfait.mois = :unMois ");
+                . "and lignefraishorsforfait.mois = :unMois "
+                . "and lignefraishorsforfait.libelle LIKE");
         $requestPrepare->bindParam(':unId', $idVisiteur, PDO::PARAM_INT);
         $requestPrepare->bindParam(':unMois', $mois, PDO::PARAM_INT);
         $requestPrepare->execute();

@@ -136,3 +136,6 @@ ALTER TABLE visiteur ADD email TEXT NULL;
 UPDATE visiteur SET email = CONCAT(login,"@swiss-galaxy.com");
 
 ALTER TABLE visiteur ADD code CHAR(4);
+
+UPDATE `etat` SET `libelle`='Validée' WHERE id = 'VA';
+INSERT INTO `etat` (`id`, `libelle`) VALUES ('MP', 'Mise en paiement');

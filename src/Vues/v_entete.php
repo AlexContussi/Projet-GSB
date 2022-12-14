@@ -114,7 +114,7 @@ $role = $_SESSION['role']
                             </li>
                         </ul>
                     </div>
-            
+                 </div>
                 <?php } else{
                 ?>
                 <h1>

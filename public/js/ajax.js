@@ -17,10 +17,4 @@ $('.btnselect').click(function(){
             else{
                    document.getElementById(id).remove();
                 }
-
-});
-
-$('#btnannuler').click(function(){
-    var element = document.getElementById('details')
-    element.children().remove();
 });

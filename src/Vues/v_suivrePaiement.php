@@ -1,10 +1,13 @@
 <?php
 
-?>
+if(empty($fichesValidees)){
+    ?> <div> Pas de fiche de frais disponible !</div>
+<?php
+}else{
+    ?>
 <div class="row">
     <div class="">
-        <form action="/miseEnPaiement"
-              method="post" role="form">
+        <form action="/miseEnPaiement" method="post" role="form">
             <div class="form-group">
                 <table class="table table-striped table-bordered shadow" id="datatable">
                     <thead>
@@ -64,5 +67,15 @@
     $(document).ready(function () {
     $('#datatable').DataTable();
 });
+
+
+$('#btnannuler').click(function(){
+  document.getElementById('details').innerHTML = "";
+});
 </script>
 <script src="js/ajax.js"></script>
+<?php
+}
+?>
+
+
