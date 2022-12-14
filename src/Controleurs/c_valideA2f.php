@@ -8,7 +8,7 @@ use Modeles\PdoGsb;
             Utilitaires::ajouterErreur('Code de vérification incorrect');
             Utilitaires::journaliser("Code de vérification incorrect à l'adresse ip: " .$_SERVER['REMOTE_ADDR']);
             include PATH_VIEWS .'v_code2facteurs.php';
-            include PATH_VIEWS . 'v_erreurs.php';
+
         } else {
             Utilitaires::connecterA2f($code);
             header("Refresh: 0;URL=/accueil");

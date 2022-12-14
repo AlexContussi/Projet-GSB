@@ -13,6 +13,7 @@
  * @version   GIT: <0>
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
+use Outils\Utilitaires;
 ?>
 <html>
     <head>
@@ -34,6 +35,11 @@
                      alt="Laboratoire Galaxy-Swiss Bourdin"
                      title="Laboratoire Galaxy-Swiss Bourdin">
             </h1>
+                <?php if(!empty($_SESSION['erreurs'])){
+                       include PATH_VIEWS . 'v_erreurs.php';
+                       Utilitaires::supprimerErreurs();
+                    }
+                ?>
             <div class="col-md-6 col-md-offset-3">
                 <div class="panel panel-default">
                     <div class="panel-heading">

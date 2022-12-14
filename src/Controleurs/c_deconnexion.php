@@ -24,4 +24,6 @@ use Outils\Utilitaires;
             Utilitaires::ajouterErreur("Vous n'êtes pas connecté");
             header("Location : URL=/");
             include PATH_VIEWS . 'v_erreurs.php';
+            Utilitaires::supprimerErreurs();
+  
         }

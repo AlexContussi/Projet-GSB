@@ -12,8 +12,7 @@ $dateFrais = Utilitaires::dateAnglaisVersFrancais(
         $libelle = filter_input(INPUT_POST, 'libelle', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $montant = filter_input(INPUT_POST, 'montant', FILTER_VALIDATE_FLOAT);
         Utilitaires::valideInfosFrais($dateFrais, $libelle, $montant);
-        if (Utilitaires::nbErreurs() != 0) {
-            include PATH_VIEWS . 'v_erreurs.php';
+        if (Utilitaires::nbErreurs() != 0) {      
             header("Refresh: 0;URL=/gererFrais");
         } else {
             header("Refresh: 0;URL=/gererFrais");

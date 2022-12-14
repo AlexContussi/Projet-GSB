@@ -1,7 +1,10 @@
 <?php
 
 if(empty($fichesValidees)){
-    ?> <div> Pas de fiche de frais disponible !</div>
+    ?> 
+    <div id="ficheCloturee" class="alert alert-info" role="alert"  >
+               Pas de fiche de frais disponible !
+                </div>
 <?php
 }else{
     ?>
@@ -25,7 +28,7 @@ if(empty($fichesValidees)){
                             ?>
                         
                             <tr>
-                                <td><input class="btnselect" type="checkbox" name="fichefrais[]" data_mois = <?php echo $uneFiche['mois']?> value="<?php echo $uneFiche['idvisiteur']?>"></td>
+                                <td><input class="btnselect" type="checkbox" name="fichefrais[]" data_mois = "<?php echo $uneFiche['mois']?>" data_id="<?php echo $uneFiche['idvisiteur'] ?>" value="<?php echo $uneFiche['idvisiteur'].$uneFiche['mois']?>" ></td>
                                 <td><?php echo $uneFiche['prenom'] . ' ' . $uneFiche['nom'] ?></td>
                                 <td><?php echo $uneFiche['mois'] ?></td>
                                 <td><?php echo $uneFiche['montantvalide'] ?></td>
@@ -65,7 +68,7 @@ if(empty($fichesValidees)){
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.13.1/datatables.min.js"></script>
 <script>
     $(document).ready(function () {
-    $('#datatable').DataTable();
+    $('#datatable').DataTable({paging: false});
 });
 
 

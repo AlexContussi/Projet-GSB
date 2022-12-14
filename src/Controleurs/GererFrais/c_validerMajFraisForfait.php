@@ -12,5 +12,5 @@ $mois = Utilitaires::getMois(date('d/m/Y'));
             header("Refresh: 0;URL=/gererFrais");
         } else {
             Utilitaires::ajouterErreur('Les valeurs des frais doivent être numériques');
-            include PATH_VIEWS . 'v_erreurs.php';
-        }
+            header("Refresh: 0;URL=/gererFrais");
+        } 

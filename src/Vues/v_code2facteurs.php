@@ -1,4 +1,6 @@
-<?php ?>
+<?php 
+use Outils\Utilitaires;
+?>
 <head>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta charset="UTF-8">
@@ -15,7 +17,15 @@
          alt="Laboratoire Galaxy-Swiss Bourdin"
          title="Laboratoire Galaxy-Swiss Bourdin">
 </h1>
+
+    
 <div class="container">
+            <?php if(!empty($_SESSION['erreurs'])){
+                    include PATH_VIEWS . 'v_erreurs.php';
+                    Utilitaires::supprimerErreurs();
+           
+    }
+?>
 <div class="alert alert-info" role="alert">Un email contenant un code à 4 chiffres vous a été envoyé, merci de le saisir ici...</div>
 <div class="row">
     <div class="col-md-6 col-md-offset-3">

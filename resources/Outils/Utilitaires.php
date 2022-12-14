@@ -237,23 +237,29 @@ abstract class Utilitaires {
      *
      * @return null
      */
-    public static function ajouterErreur($msg): void {
-        if (!isset($_REQUEST['erreurs'])) {
-            $_REQUEST['erreurs'] = array();
+ public static function ajouterErreur($msg): void {
+        if (!isset($_SESSION['erreurs'])) {
+            $_SESSION['erreurs'] = array();
         }
-        $_REQUEST['erreurs'][] = $msg;
+        $_SESSION['erreurs'][] = $msg;
     }
 
-    /**
+/**
      * Retoune le nombre de lignes du tableau des erreurs
      *
      * @return Integer le nombre d'erreurs
      */
     public static function nbErreurs(): int {
-        if (!isset($_REQUEST['erreurs'])) {
+        if (!isset($_SESSION['erreurs'])) {
             return 0;
         } else {
-            return count($_REQUEST['erreurs']);
+            return count($_SESSION['erreurs']);
+        }
+    }
+    public static function supprimerErreurs(): void
+    {
+        if (isset($_SESSION['erreurs'])) {
+            $_SESSION['erreurs'] = [];
         }
     }
 

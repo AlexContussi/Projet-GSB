@@ -76,6 +76,16 @@ CREATE TABLE IF NOT EXISTS lignefraishorsforfait (
   FOREIGN KEY (idvisiteur, mois) REFERENCES fichefrais(idvisiteur, mois)
 ) ENGINE=InnoDB;
 
+CREATE TABLE IF NOT EXISTS vehicule (
+id int AUTO_INCREMENT, 
+matricule varchar(9) not null,
+ puissanceFiscal int not null,
+ typeEssence set('essence','diesel') not null,
+ idvisiteur int not null,
+ CONSTRAINT PRIMARY KEY(id),
+ CONSTRAINT FOREIGN KEY (idvisiteur) REFERENCES visiteur(id) 
+);
+
 -- Alimentation des données paramètres
 INSERT INTO fraisforfait (id, libelle, montant) VALUES
 ('ETP', 'Forfait Etape', 110.00),
@@ -92,6 +102,7 @@ INSERT INTO etat (id, libelle) VALUES
 
 INSERT INTO gsb_role (libelle) VALUES ('visiteur'),('comptable');
 
+INSERT INTO `vehicule`(`matricule`, `puissanceFiscal`, `typeEssence`, `idvisiteur`) VALUES ('BH-980-AW',5,'essence',1);
 
 -- Récupération des utilisateurs
 INSERT INTO visiteur ( nom, prenom, login, mdp, adresse, cp, ville, dateembauche,id_role) VALUES

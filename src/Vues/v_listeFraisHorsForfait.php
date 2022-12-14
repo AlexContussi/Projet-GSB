@@ -14,7 +14,7 @@
  * @version   GIT: <0>
  * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
  */
-
+use Outils\Utilitaires;
 ?>
  <head>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -28,7 +28,11 @@
     </head>
     <body>
         <div class="container">
-<hr>
+            <?php if($etat['idetat']=="CL"){
+                
+               }else{
+                   ?>
+            <hr>
 <div class="row">
     <div class="panel panel-info">
         <div class="panel-heading">Descriptif des éléments hors forfait</div>
@@ -68,6 +72,12 @@
 </div>
 <div class="row">
     <h3>Nouvel élément hors forfait</h3>
+    <?php if(!empty($_SESSION['erreurs'])){
+           include PATH_VIEWS . 'v_erreurs.php';
+           Utilitaires::supprimerErreurs();
+           
+    }
+?>
     <div class="col-md-4">
         <form action="/gererFrais/validerCreationFrais/" 
               method="post" role="form">
@@ -87,8 +97,11 @@
                     <input type="text" id="txtMontantHF" name="montant" class="form-control" value="">
                 </div>
             </div>
-            <button class="btn btn-success" type="submit">Ajouter</button>
-            <button class="btn btn-danger" type="reset">Effacer</button>
+                <button class="btn btn-success" type="submit" >Ajouter</button>
+                <button class="btn btn-danger" type="reset" <?php echo ($etat['idetat']=="VA")?  "disabled":"" ?> >Effacer</button>
         </form>
     </div>
 </div>
+       <?php
+           }
+           

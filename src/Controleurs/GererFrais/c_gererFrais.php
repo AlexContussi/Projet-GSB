@@ -29,5 +29,6 @@ $numMois = substr($mois, 4, 2);
         }
 $lesFraisHorsForfait = $pdo->getLesFraisHorsForfait($idVisiteur, $mois);
 $lesFraisForfait = $pdo->getLesFraisForfait($idVisiteur, $mois);
+$etat = $pdo->getFicheFraisEtat($idVisiteur.$mois);
 require PATH_VIEWS . 'v_listeFraisForfait.php';
 require PATH_VIEWS . 'v_listeFraisHorsForfait.php';

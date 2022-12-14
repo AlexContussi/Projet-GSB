@@ -1,5 +1,5 @@
 $('.btnselect').click(function(){
-    id = $(this).attr('value');
+        id = $(this).attr('data_id');
      mois = $(this).attr('data_mois');
      detail = $('#details');
 

@@ -25,7 +25,6 @@ use Outils\Utilitaires;
             Utilitaires::ajouterErreur('Login ou mot de passe incorrect');
             Utilitaires::journaliser("Connexion échouée pour le login : " . $login . " à partir de l'ip :" . $_SERVER['REMOTE_ADDR']);
             include PATH_VIEWS . 'v_connexion.php';
-            include PATH_VIEWS . 'v_erreurs.php';
 
         } else {
             $visiteur = $pdo->getInfosVisiteur($login);

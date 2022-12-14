@@ -9,4 +9,3 @@ $totalFraisHorsForfait = $pdo->getTotauxFicheFraisHorsForfait($id, $mois);
 $utilisateur = $pdo->getUtilisateurFicheFrais($id);
 
 include PATH_VIEWS . 'Ajax/v_fraisTotauxAjax.php';
-?>

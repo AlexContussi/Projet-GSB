@@ -18,3 +18,14 @@ a.active-comptable:hover {
     color: white!important;
 }
 
+.alert-info{
+    text-align: center;
+    font-size: larger;
+    font-weight: 700;
+}
+
+.alert-danger{
+     text-align: center; 
+     font-size: larger;
+     font-weight: 700;
+}

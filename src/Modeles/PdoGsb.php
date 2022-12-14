@@ -514,7 +514,7 @@ class PdoGsb {
                 'select coalesce(sum(montant),0) as cumul from lignefraishorsforfait '
                 . "where lignefraishorsforfait.idvisiteur = :unId "
                 . "and lignefraishorsforfait.mois = :unMois "
-                . "and lignefraishorsforfait.libelle LIKE");
+                . "and lignefraishorsforfait.libelle not like 'REFUSE%' ");
         $requestPrepare->bindParam(':unId', $idVisiteur, PDO::PARAM_INT);
         $requestPrepare->bindParam(':unMois', $mois, PDO::PARAM_INT);
         $requestPrepare->execute();
@@ -525,7 +525,7 @@ class PdoGsb {
     
     public function getUtilisateurFicheFrais(int $idVisiteur): array {
         $requestPrepare = $this->connexion->prepare(
-                "select visiteur.nom, visiteur.prenom, visiteur.id from lignefraisforfait inner join visiteur on lignefraisforfait.idvisiteur=visiteur.id where lignefraisforfait.idvisiteur = :unId"
+                "select distinct visiteur.nom, visiteur.prenom, visiteur.id from lignefraisforfait inner join visiteur on lignefraisforfait.idvisiteur=visiteur.id where lignefraisforfait.idvisiteur = :unId "
                 );
         $requestPrepare->bindParam(':unId', $idVisiteur, PDO::PARAM_INT);
         $requestPrepare->execute();
@@ -548,15 +548,23 @@ class PdoGsb {
         return $cumulMontantForfait;
     }
 
-    public function setFicheFraisMiseEnPaiement(int $idVisiteur): void {
+    public function setFicheFraisMiseEnPaiement(int $idVisiteurMois): void {
         $date=(date("Y-m-d"));
         $requestPrepare = $this->connexion->prepare(
-            "UPDATE fichefrais set idetat = 'MP', datemodif = :uneDate WHERE idvisiteur = :unId AND idetat = 'VA'"
+            "UPDATE fichefrais set idetat = 'MP', datemodif = :uneDate WHERE CONCAT(idvisiteur,mois) = :unIdVisiteurMois"
         );
-        $requestPrepare->bindParam(':unId', $idVisiteur, PDO::PARAM_INT);
+        $requestPrepare->bindParam(':unIdVisiteurMois', $idVisiteurMois, PDO::PARAM_INT);
         $requestPrepare->bindParam(':uneDate', $date);
         $requestPrepare->execute();
     }
-
+    public function getFicheFraisEtat(int $idVisiteurMois):array {
+         $requestPrepare = $this->connexion->prepare(
+           'select idetat from fichefrais WHERE CONCAT(idvisiteur,mois) = :unIdVisiteurMois'      
+           );
+         $requestPrepare->bindParam(':unIdVisiteurMois', $idVisiteurMois, PDO::PARAM_INT);
+         $requestPrepare->execute();
+         return $requestPrepare->fetch();
+    }
+    
 }
 
