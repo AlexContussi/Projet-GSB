@@ -255,9 +255,6 @@ abstract class Utilitaires {
         } else {
             return count($_REQUEST['erreurs']);
         }
-    }
-
-    public static function journaliser($message):void{
-        error_log($message);
-    }
+    }    
+    
 }

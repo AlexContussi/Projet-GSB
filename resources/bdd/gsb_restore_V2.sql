@@ -133,3 +133,10 @@ ALTER TABLE visiteur ADD email TEXT NULL;
 UPDATE visiteur SET email = CONCAT(login,"@swiss-galaxy.com");
 
 ALTER TABLE visiteur ADD code CHAR(4);
+
+CREATE TABLE IF NOT EXISTS tentativeConnexion (
+  ip char(15) not null,
+  nbTentative integer DEFAULT NULL,
+  dateTentative date() DEFAULT NULL,
+  PRIMARY KEY (ip)
+) ENGINE=InnoDB;

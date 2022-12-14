@@ -31,7 +31,6 @@ switch ($action) {
         $visiteur = $pdo->getInfosVisiteur($login);
         if (!password_verify($mdp, $pdo->getMdpVisiteur($login))) {
             Utilitaires::ajouterErreur('Login ou mot de passe incorrect');
-            Utilitaires::journaliser("Connexion échouée pour le login : ".$login." à partir de l'ip :".$_SERVER['REMOTE_ADDR'].";");
             include PATH_VIEWS . 'v_erreurs.php';
             include PATH_VIEWS . 'v_connexion.php';
         } else {
@@ -49,6 +48,7 @@ switch ($action) {
             include PATH_VIEWS . 'v_code2facteurs.php';
 
         }
+        
         break;
     case 'valideA2fConnexion':
         $code = filter_input(INPUT_POST, 'code', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
