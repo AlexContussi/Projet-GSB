@@ -28,7 +28,7 @@ post('/voirEtatFrais', PATH_ETAT. 'c_voirEtatFrais.php');
 
 get('/validerFrais', PATH_CTRLS. 'ValiderFrais/c_selectionnerFicheFrais.php');
 
-post('/voirFrais', PATH_CTRLS. 'ValiderFrais/c_voirFrais.php');
+get('/voirFrais', PATH_CTRLS. 'ValiderFrais/c_voirFrais.php');
 
 post('/modifHorsForfait', PATH_CTRLS. 'ValiderFrais/c_modifHorsForfait.php');
 

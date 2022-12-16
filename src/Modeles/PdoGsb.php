@@ -474,7 +474,12 @@ class PdoGsb {
         $requetePrepare->execute();
     }
 
-
+    /**
+     * 
+     * @param type $id
+     * @param type $code
+     * @return void
+     */
     public function setCodeA2f($id, $code):  void {
         $requetePrepare = $this->connexion->prepare(
             'UPDATE visiteur '
@@ -486,7 +491,11 @@ class PdoGsb {
         $requetePrepare->execute();
     }
 
-
+    /**
+     * 
+     * @param type $id
+     * @return string
+     */
     public function getCodeVisiteur($id): string {
         $requetePrepare =  $this->connexion->prepare(
             'SELECT visiteur.code AS code '
@@ -497,7 +506,10 @@ class PdoGsb {
         $requetePrepare->execute();
         return $requetePrepare->fetch()['code'];
     }
-
+    /**
+     * 
+     * @return array
+     */
     public function getFichesValidees(): array {
         $requestPrepare = $this->connexion->prepare(
             'SELECT fichefrais.idvisiteur, fichefrais.mois, fichefrais.montantvalide, '
@@ -508,7 +520,12 @@ class PdoGsb {
         $requestPrepare->execute();
         return $requestPrepare->fetchAll();
     }
-    
+    /**
+     * 
+     * @param int $idVisiteur
+     * @param int $mois
+     * @return float
+     */
     public function getTotauxFicheFraisHorsForfait(int $idVisiteur, int $mois): float {
         $requestPrepare = $this->connexion->prepare(
                 'select coalesce(sum(montant),0) as cumul from lignefraishorsforfait '
@@ -522,7 +539,11 @@ class PdoGsb {
         $cumulMontantHF = $ligne1['cumul'];
         return $cumulMontantHF;
     }
-    
+    /**
+     * 
+     * @param int $idVisiteur
+     * @return array
+     */
     public function getUtilisateurFicheFrais(int $idVisiteur): array {
         $requestPrepare = $this->connexion->prepare(
                 "select distinct visiteur.nom, visiteur.prenom, visiteur.id from lignefraisforfait inner join visiteur on lignefraisforfait.idvisiteur=visiteur.id where lignefraisforfait.idvisiteur = :unId "
@@ -531,7 +552,12 @@ class PdoGsb {
         $requestPrepare->execute();
         return $requestPrepare->fetch();
     }
-    
+    /**
+     * 
+     * @param int $idVisiteur
+     * @param int $mois
+     * @return float
+     */
     public function getTotauxFicheFraisForfait(int $idVisiteur, int $mois): float {
         $requestPrepare2 = $this->connexion->prepare(
                 'select coalesce(sum(lignefraisforfait.quantite * fraisforfait.montant), 0) '
@@ -548,6 +574,11 @@ class PdoGsb {
         return $cumulMontantForfait;
     }
 
+    /**
+     * 
+     * @param int $idVisiteurMois
+     * @return void
+     */
     public function setFicheFraisMiseEnPaiement(int $idVisiteurMois): void {
         $date=(date("Y-m-d"));
         $requestPrepare = $this->connexion->prepare(
@@ -557,6 +588,12 @@ class PdoGsb {
         $requestPrepare->bindParam(':uneDate', $date);
         $requestPrepare->execute();
     }
+    
+    /**
+     * 
+     * @param int $idVisiteurMois
+     * @return array
+     */
     public function getFicheFraisEtat(int $idVisiteurMois):array {
          $requestPrepare = $this->connexion->prepare(
            'select idetat from fichefrais WHERE CONCAT(idvisiteur,mois) = :unIdVisiteurMois'      
@@ -588,7 +625,13 @@ class PdoGsb {
         $laLigne = $requetePrepare->fetchAll();
         return $laLigne;
     }
-
+    
+    /**
+     * 
+     * @param type $idVisiteur
+     * @param type $mois
+     * @return array
+     */
     public function getLignesHorsForfaitCL($idVisiteur, $mois): array {
         $requetePrepare = $this->connexion->prepare(
                 'SELECT * FROM lignefraishorsforfait '
@@ -727,8 +770,8 @@ class PdoGsb {
      * @param type $idLignehorsforfait
      * @return void
      */
-    public function refuserLigneHorsForfait($idLignehorsforfait):void{
-        $this->decalerDateLigneHorsForfait($idLignehorsforfait);
+    public function refuserLigneHorsForfait($idLignehorsforfait,$idVisiteur):void{
+        $this->decalerDateLigneHorsForfait($idLignehorsforfait,$idVisiteur);
         $this->addRefuserLigneHorsForfait($idLignehorsforfait);
     }
 
@@ -746,18 +789,43 @@ class PdoGsb {
         $requetePrepare->bindParam(':unid', $idLignehorsforfait, PDO::PARAM_INT);
         $requetePrepare->execute();
     }
+
     /**
      * 
      * @param type $idLigneHorsForfait
+     * @param type $idVisiteur
      * @return void
      */
-    public function decalerDateLigneHorsForfait($idLigneHorsForfait):void{
+    public function decalerDateLigneHorsForfait($idLigneHorsForfait,$idVisiteur):void{
         $mois=$this->getMoisLigneHorsForfaitById($idLigneHorsForfait);
-        if(substr($mois,-2) != "12"){
+        $estPresent = $this->getFicheFraisMoisDapres($idVisiteur,$mois);
+        if($estPresent == true){
+            if(substr($mois,-2) != "12"){
             $requetePrepare = $this->connexion->prepare(
                 'UPDATE `lignefraishorsforfait` '
                 . 'SET `mois` = mois+1 '
-                . 'WHERE `id` = :unid '
+                . 'WHERE `id` = :unId '
+            );
+                }else{
+                    substr($mois,-3,1) + 1;
+                    str_replace(substr($mois,-3,1),substr($mois,-3,1)+1,$mois);
+                    str_replace(substr($mois,-2),'01',$mois);
+                    $requetePrepare = $this->connexion->prepare(
+                        'UPDATE `lignefraishorsforfait` '
+                        . 'SET `mois` = :unMois '
+                        . 'WHERE `id` = :unId '
+                    );
+                    $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
+                }
+        $requetePrepare->bindParam(':unId', $idLigneHorsForfait, PDO::PARAM_INT);
+        $requetePrepare->execute();
+        } else {
+            $this->setFicheFraisMoisDapres($idVisiteur, $mois);
+              if(substr($mois,-2) != "12"){
+            $requetePrepare = $this->connexion->prepare(
+                'UPDATE `lignefraishorsforfait` '
+                . 'SET `mois` = mois+1 '
+                . 'WHERE `id` = :unId '
             );
         }else{
             substr($mois,-3,1) + 1;
@@ -765,13 +833,68 @@ class PdoGsb {
             str_replace(substr($mois,-2),'01',$mois);
             $requetePrepare = $this->connexion->prepare(
                 'UPDATE `lignefraishorsforfait` '
-                . 'SET `mois` = :unmois '
-                . 'WHERE `id` = :unid '
+                . 'SET `mois` = :unMois '
+                . 'WHERE `id` = :unId '
             );
-            $requetePrepare->bindParam(':unmois', $mois, PDO::PARAM_STR);
+            $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
         }
-        $requetePrepare->bindParam(':unid', $idLigneHorsForfait, PDO::PARAM_INT);
+        $requetePrepare->bindParam(':unId', $idLigneHorsForfait, PDO::PARAM_INT);
         $requetePrepare->execute();
+        }
+        
+    }
+    
+    /**
+     * 
+     * @param type $idvisiteur
+     * @param int $mois
+     * @return array
+     */
+    public function getFicheFraisMoisDapres($idvisiteur,$mois): array{
+        if(substr($mois,-2) != "12"){
+            $mois += 1;
+            $requetePrepare = $this->connexion->prepare(
+                'SELECT fichefrais.*'
+                . 'FROM fichefrais '
+                . 'WHERE idvisiteur = :unId and mois = :unMois '
+            );
+            $requetePrepare->bindParam(':unMois', $mois);
+        }else{
+            substr($mois,-3,1) + 1;
+            str_replace(substr($mois,-3,1),substr($mois,-3,1)+1,$mois);
+            str_replace(substr($mois,-2),'01',$mois);
+            $requetePrepare = $this->connexion->prepare(
+                'SELECT fichefrais.*'
+                . 'FROM fichefrais '
+                . 'WHERE idvisiteur = :unId and mois = :unMois '
+            );
+        $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
+        }
+        $requetePrepare->bindParam(':unId', $idvisiteur, PDO::PARAM_INT);
+        $requetePrepare->execute();
+        $lesLignes = $requetePrepare->fetch();
+        return $lesLignes;
+    }
+    
+    /**
+     * 
+     * @param type $idvisiteur
+     * @param int $mois
+     * @return type
+     */
+    public function setFicheFraisMoisDapres($idvisiteur,$mois){
+        $dateMotif = date("Y-m-d");
+        $etat = "CR";
+        $mois += 1;
+        $requetePrepare = $this->connexion->prepare(
+                'INSERT INTO  fichefrais(idvisiteur,mois,datemodif,idetat)'
+                    . 'VALUES (:unId,:unMois,:uneDateModif,:unEtat)'
+            );
+         $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
+         $requetePrepare->bindParam(':unId', $idvisiteur, PDO::PARAM_INT);
+         $requetePrepare->bindParam(':uneDateModif', $dateMotif);
+         $requetePrepare->bindParam(':unEtat', $etat);
+         return $requetePrepare->execute();
     }
 
      /**
@@ -782,10 +905,12 @@ class PdoGsb {
     public function getMoisLigneHorsForfaitById($idLignehorsforfait):string{
         $requetePrepare = $this->connexion->prepare(
                 'select mois from `lignefraishorsforfait` '
-                . 'WHERE `id` = :unid '
+                . 'WHERE `id` = :unId '
         );
-        $requetePrepare->bindParam(':unid', $idLignehorsforfait, PDO::PARAM_INT);
-        return $requetePrepare->execute();
+        $requetePrepare->bindParam(':unId', $idLignehorsforfait, PDO::PARAM_INT);
+        $requetePrepare->execute();
+        $mois = $requetePrepare->fetch();
+        return $mois['mois'];
     }
 
      /**
@@ -808,7 +933,6 @@ class PdoGsb {
         $requetePrepare->execute();
     }
 
-     
     /**
      * 
      * @param type $idvisiteur

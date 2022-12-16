@@ -1,4 +1,4 @@
-<form action="/voirFrais"  method="post" role="form">
+<form action="/voirFrais"  method="get" role="form">
     <label for="selectVisiteur">Choisir le visiteur</label>
     <select id="selectVisiteur" name="idvisiteur">
         <?php 

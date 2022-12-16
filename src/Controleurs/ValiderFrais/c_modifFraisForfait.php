@@ -11,4 +11,4 @@ $pdo->setLigneFraisForfaitEtape($id, $mois, $etape);
 $pdo->setLigneFraisForfaitKm($id, $mois, $km);
 $pdo->setLigneFraisForfaitNui($id, $mois, $nui);
 $pdo->setLigneFraisForfaitRep($id, $mois, $rep);
-header("Refresh: 0;URL=/validerFrais");
+header("Refresh: 0;URL=/voirFrais?idvisiteur=".$id."&dateselected=".$mois."");

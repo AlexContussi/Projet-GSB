@@ -63,6 +63,8 @@ if (sizeof($lesFraisHorsForfait) > 0 || sizeof($lignes) > 0) {
             ?>
                 <tr >
                     <form action="/modifHorsForfait"  method="post" role="form">
+                    <input name="dateselected" value="<?php echo $dateselected ?>" hidden />
+                    <input name="idvisiteur" value="<?php echo $idvisiteur ?>" hidden />
                         <td class="borderComptable">
                             <input name="id" hidden value="<?php echo $unFraisHorsForfait['id'] ?>"/>
                             <input name="date" value="<?php echo $unFraisHorsForfait['date'] ?>"/>
@@ -76,6 +78,8 @@ if (sizeof($lesFraisHorsForfait) > 0 || sizeof($lignes) > 0) {
                     </form>
                     <form action="/refuserLigneHorsForfait"  method="post" role="form">
                         <td class="borderComptable">
+                        <input name="dateselected" value="<?php echo $dateselected ?>" hidden />
+                        <input name="idvisiteur" value="<?php echo $idvisiteur ?>" hidden />
                             <button class="btn backgroundComptable"  type="submit" name="idLigneFraisHorsForfait" value="<?php echo $unFraisHorsForfait['id'] ?>">REFUSER</button>
                         </td>
                     </form>
