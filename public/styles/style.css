@@ -29,3 +29,18 @@ a.active-comptable:hover {
      font-size: larger;
      font-weight: 700;
 }
+
+.colorComptable{
+    color: #ff8800 !important;
+}
+.backgroundComptable{
+    background-color: #ff8800 !important;
+    color:#FFF;
+}
+.borderComptable{
+    border:#ff8800 solid 2px !important
+}
+.space{
+    margin-top: 20px;
+}
+    

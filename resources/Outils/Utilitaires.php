@@ -49,12 +49,12 @@ abstract class Utilitaires {
      
     public static function connecter($idVisiteur, $nom, $prenom,$role): void
     {
-
         $_SESSION['idVisiteur'] = $idVisiteur;
         $_SESSION['nom'] = $nom;
         $_SESSION['prenom'] = $prenom;
         $_SESSION['role'] = $role;
     }
+
 
     public static function aUnRole(){
         if(isset($_SESSION['role'])){

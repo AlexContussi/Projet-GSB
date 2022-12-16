@@ -565,6 +565,267 @@ class PdoGsb {
          $requestPrepare->execute();
          return $requestPrepare->fetch();
     }
+
+      /**
+     * 
+     * @param type $idVisiteur
+     * @param type $mois
+     * @return array
+     */
+    public function getLignesFicheFraisCL($idVisiteur, $mois): array {
+        $requetePrepare = $this->connexion->prepare(
+            'SELECT * FROM lignefraisforfait '
+                .' inner join fichefrais ' 
+                .' on lignefraisforfait.idvisiteur = fichefrais.idvisiteur '
+                .' and lignefraisforfait.mois=fichefrais.mois '
+                .' WHERE lignefraisforfait.idvisiteur = :unIdVisiteur '
+                .' AND lignefraisforfait.mois = :unMois '
+                .' AND fichefrais.idetat= \'CL\' '
+        );
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        $laLigne = $requetePrepare->fetchAll();
+        return $laLigne;
+    }
+
+    public function getLignesHorsForfaitCL($idVisiteur, $mois): array {
+        $requetePrepare = $this->connexion->prepare(
+                'SELECT * FROM lignefraishorsforfait '
+                .' inner join fichefrais ' 
+                .' on lignefraishorsforfait.idvisiteur = fichefrais.idvisiteur '
+                .' and lignefraishorsforfait.mois=fichefrais.mois '
+                . 'WHERE lignefraishorsforfait.idvisiteur = :unIdVisiteur '
+                . 'AND lignefraishorsforfait.mois = :unMois'
+                .' AND fichefrais.idetat= \'CL\' '
+        );
+        $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
+        $requetePrepare->execute();
+        $lesLignes = $requetePrepare->fetchAll();
+        return $lesLignes;
+    }
+    /**
+     * 
+     * @return type
+     */
+    public function getAllVisiteur() {
+        $requetePrepare =  $this->connexion->prepare(
+            'SELECT visiteur.id,visiteur.nom,visiteur.prenom FROM visiteur WHERE id_role= 1'
+        );
+        $requetePrepare->execute();
+        return $requetePrepare->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+      /**
+     * 
+     * @param type $id
+     * @param type $mois
+     * @param type $etape
+     * @return void
+     */
+    public function setLigneFraisForfaitEtape($id,$mois,$etape): void {
+        $requetePrepare = $this->connexion->prepare(
+                'UPDATE `lignefraisforfait` '
+                . 'SET `quantite` = :uneetape '
+                . 'WHERE `idvisiteur` = :unid '
+                . ' and `mois` =:unmois '
+                . ' and `idfraisforfait` = \'ETP\'; '
+        );
+        $requetePrepare->bindParam(':unid', $id, PDO::PARAM_INT);
+        $requetePrepare->bindParam(':unmois', $mois, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':uneetape', $etape, PDO::PARAM_STR);
+        $requetePrepare->execute();
+    }
     
+    /**
+     * 
+     * @param type $id
+     * @param type $mois
+     * @param type $nui
+     * @return void
+     */
+    public function setLigneFraisForfaitNui($id,$mois,$nui): void {
+        $requetePrepare = $this->connexion->prepare(
+                'UPDATE `lignefraisforfait` '
+                . 'SET `quantite` = :unenui '
+                . 'WHERE `lignefraisforfait`.`idvisiteur` = :unid '
+                . 'AND `lignefraisforfait`.`mois` = :unmois '
+                . 'AND `lignefraisforfait`.`idfraisforfait` = \'NUI\' '
+        );
+        $requetePrepare->bindParam(':unid', $id, PDO::PARAM_INT);
+        $requetePrepare->bindParam(':unmois', $mois, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unenui', $nui, PDO::PARAM_STR);
+        $requetePrepare->execute();
+    }
+    /**
+     * 
+     * @param type $id
+     * @param type $mois
+     * @param type $km
+     * @return void
+     */
+    public function setLigneFraisForfaitKm($id,$mois,$km): void {
+        $requetePrepare = $this->connexion->prepare(
+                'UPDATE `lignefraisforfait` '
+                . 'SET `quantite` = :unkm '
+                . 'WHERE `lignefraisforfait`.`idvisiteur` = :unid '
+                . 'AND `lignefraisforfait`.`mois` = :unmois '
+                . 'AND `lignefraisforfait`.`idfraisforfait` = \'KM\' '
+        );
+        $requetePrepare->bindParam(':unid', $id, PDO::PARAM_INT);
+        $requetePrepare->bindParam(':unmois', $mois, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unkm', $km, PDO::PARAM_STR);
+        $requetePrepare->execute();
+    }
+    /**
+     * 
+     * @param type $id
+     * @param type $mois
+     * @param type $rep
+     * @return void
+     */
+    public function setLigneFraisForfaitRep($id,$mois,$rep): void {
+        $requetePrepare = $this->connexion->prepare(
+                'UPDATE `lignefraisforfait` '
+                . 'SET `quantite` = :unrep '
+                . 'WHERE `lignefraisforfait`.`idvisiteur` = :unid '
+                . 'AND `lignefraisforfait`.`mois` = :unmois '
+                . 'AND `lignefraisforfait`.`idfraisforfait` = \'REP\' '
+        );
+        $requetePrepare->bindParam(':unid', $id, PDO::PARAM_INT);
+        $requetePrepare->bindParam(':unmois', $mois, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unrep', $rep, PDO::PARAM_STR);
+        $requetePrepare->execute();
+    }
+
+     /**
+     * 
+     * @param type $id
+     * @param type $libelle
+     * @param type $date
+     * @param type $montant
+     * @return void
+     */
+    public function setLigneHorsForfait($id,$libelle,$date,$montant): void {
+        $requetePrepare = $this->connexion->prepare(
+                'UPDATE `lignefraishorsforfait` '
+                . 'SET `montant` = :unmontant,'
+                . ' `libelle` = :unlibelle,'
+                . ' `date` = :unedate '
+                . ' WHERE `lignefraishorsforfait`.`id` = :unid'
+        );
+        $requetePrepare->bindParam(':unid', $id, PDO::PARAM_INT);
+        $requetePrepare->bindParam(':unedate', $date, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unlibelle', $libelle, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':unmontant', $montant, PDO::PARAM_STR);
+        $requetePrepare->execute();
+    }
+
+    /**
+     * 
+     * @param type $idLignehorsforfait
+     * @return void
+     */
+    public function refuserLigneHorsForfait($idLignehorsforfait):void{
+        $this->decalerDateLigneHorsForfait($idLignehorsforfait);
+        $this->addRefuserLigneHorsForfait($idLignehorsforfait);
+    }
+
+     /**
+     * 
+     * @param type $idLignehorsforfait
+     * @return void
+     */
+    public function addRefuserLigneHorsForfait($idLignehorsforfait):void{
+        $requetePrepare = $this->connexion->prepare(
+                'UPDATE `lignefraishorsforfait` '
+                . 'SET `libelle` = CONCAT(\'REFUSER \',libelle) '
+                . 'WHERE `id` = :unid '
+        );
+        $requetePrepare->bindParam(':unid', $idLignehorsforfait, PDO::PARAM_INT);
+        $requetePrepare->execute();
+    }
+    /**
+     * 
+     * @param type $idLigneHorsForfait
+     * @return void
+     */
+    public function decalerDateLigneHorsForfait($idLigneHorsForfait):void{
+        $mois=$this->getMoisLigneHorsForfaitById($idLigneHorsForfait);
+        if(substr($mois,-2) != "12"){
+            $requetePrepare = $this->connexion->prepare(
+                'UPDATE `lignefraishorsforfait` '
+                . 'SET `mois` = mois+1 '
+                . 'WHERE `id` = :unid '
+            );
+        }else{
+            substr($mois,-3,1) + 1;
+            str_replace(substr($mois,-3,1),substr($mois,-3,1)+1,$mois);
+            str_replace(substr($mois,-2),'01',$mois);
+            $requetePrepare = $this->connexion->prepare(
+                'UPDATE `lignefraishorsforfait` '
+                . 'SET `mois` = :unmois '
+                . 'WHERE `id` = :unid '
+            );
+            $requetePrepare->bindParam(':unmois', $mois, PDO::PARAM_STR);
+        }
+        $requetePrepare->bindParam(':unid', $idLigneHorsForfait, PDO::PARAM_INT);
+        $requetePrepare->execute();
+    }
+
+     /**
+     * 
+     * @param type $idLignehorsforfait
+     * @return string
+     */
+    public function getMoisLigneHorsForfaitById($idLignehorsforfait):string{
+        $requetePrepare = $this->connexion->prepare(
+                'select mois from `lignefraishorsforfait` '
+                . 'WHERE `id` = :unid '
+        );
+        $requetePrepare->bindParam(':unid', $idLignehorsforfait, PDO::PARAM_INT);
+        return $requetePrepare->execute();
+    }
+
+     /**
+     * 
+     * @param type $idvisiteur
+     * @param type $mois
+     * @param type $nbjustificatifs
+     * @return void
+     */
+    public function validerJustificatifs($idvisiteur,$mois,$nbjustificatifs): void {
+        $requetePrepare = $this->connexion->prepare(
+                'UPDATE `fichefrais` '
+                . 'SET `nbjustificatifs` = :nbjustificatifs '
+                . 'WHERE `idvisiteur` = :unid '
+                . 'AND `mois` = :unmois ' 
+        );
+        $requetePrepare->bindParam(':unid', $idvisiteur, PDO::PARAM_INT);
+        $requetePrepare->bindParam(':unmois', $mois, PDO::PARAM_STR);
+        $requetePrepare->bindParam(':nbjustificatifs', $nbjustificatifs, PDO::PARAM_INT);
+        $requetePrepare->execute();
+    }
+
+     
+    /**
+     * 
+     * @param type $idvisiteur
+     * @param type $mois
+     * @return void
+     */
+    public function validerFicheFrais($idvisiteur,$mois):void{
+        $requetePrepare = $this->connexion->prepare(
+                  'UPDATE `fichefrais` '
+                  . 'SET `idetat` = \'VA\' , '
+                  . 'datemodif = NOW() '
+                  . 'WHERE `idvisiteur` = :unid '
+                  . 'AND `mois` = :unmois '
+          );
+          $requetePrepare->bindParam(':unid', $idvisiteur, PDO::PARAM_INT);
+          $requetePrepare->bindParam(':unmois', $mois, PDO::PARAM_STR);
+          $requetePrepare->execute();
+      }
 }
 

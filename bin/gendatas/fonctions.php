@@ -357,46 +357,6 @@ function majFicheFrais($pdo)
         $res = $pdo->query($req);
         $ligne = $res->fetch();
         $cumulMontantHF = $ligne['cumul'];
-        //Il faut selectionner toutes les lignes fraiforfait du mois et del'utilisateur, ensuite verifier pour chaque ligne si KM
-        //SI KM faire le traitement tarif spéciale sinon ligne tout seul
-        $req = 'lignefraisforfait.idfraisforfait from lignefraisforfait '
-                . 'where lignefraisforfait.idfraisforfait = \'KM\' and lignefraisforfait.idvisiteur = ' .$idVisiteur. ' and lignefraisforfait.mois ='.$mois;
-        $res = $pdo->query($req);
-        $ligne = $res->fetch();
-        if($ligne['idfraisforfait'] == "KM"){
-            $req = 'select vehicule.id, vehicule.puissanceFiscal, vehicule.typeEssence from vehicule where vehicule.idvisiteur = '.$idVisiteur;
-             $res = $pdo->query($req);
-            $ligne = $res->fetch();
-            $coutKilometre =$ligne['puissanceFiscal'].$ligne['typeEssence'];
-            switch($coutKilometre){
-                case "4diesel":
-                    $montant = 0.52;
-                    break;
-                case "5diesel":
-                    $montant = 0.58;
-                    break;
-                case "6diesel":
-                    $montant = 0.58;
-                    break;
-                case "4essence":
-                    $montant = 0.62;
-                    break;
-                case "5essence":
-                    $montant = 0.67;
-                    break;
-                 case "6essence":
-                    $montant = 0.67;
-                    break;   
-            }
-            $req = 'select sum(lignefraisforfait.quantite *'.$montant.') '
-                . 'as cumul '
-                . 'from lignefraisforfait, fraisforfait '
-                . 'where lignefraisforfait.idfraisforfait = " '
-                . "and lignefraisforfait.idvisiteur = '$idVisiteur' "
-                . "and lignefraisforfait.mois = '$mois' ";
-            $res = $pdo->query($req);
-            $ligne = $res->fetch();
-        }else{
              $req = 'select sum(lignefraisforfait.quantite * fraisforfait.montant) '
                 . 'as cumul '
                 . 'from lignefraisforfait, fraisforfait '
@@ -416,7 +376,6 @@ function majFicheFrais($pdo)
         $req = "update fichefrais set montantvalide = $montantValide "
             . "where idvisiteur = '$idVisiteur' and mois = '$mois'";
         $pdo->exec($req);
-    }
         }
                 
        
