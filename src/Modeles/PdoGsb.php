@@ -790,16 +790,30 @@ class PdoGsb {
         $requetePrepare->execute();
     }
 
-    /**
-     * 
-     * @param type $idLigneHorsForfait
-     * @param type $idVisiteur
-     * @return void
-     */
+  /**
+   * 
+   * @param type $idLigneHorsForfait
+   * @param type $idVisiteur
+   * @return void
+   */
     public function decalerDateLigneHorsForfait($idLigneHorsForfait,$idVisiteur):void{
         $mois=$this->getMoisLigneHorsForfaitById($idLigneHorsForfait);
         $estPresent = $this->getFicheFraisMoisDapres($idVisiteur,$mois);
         if($estPresent == true){
+            $this->decalerDateLigneHF($idVisiteur,$mois);
+        } else {
+            $this->setFicheFraisMoisDapres($idVisiteur, $mois);
+            $this->decalerDateLigneHF($idVisiteur,$mois);
+        }
+    }
+    
+        /**
+         * 
+         * @param type $idVisiteur
+         * @param type $mois
+         * @return void
+         */
+        public function decalerDateLigneHF($idVisiteur,$mois):void {
             if(substr($mois,-2) != "12"){
             $requetePrepare = $this->connexion->prepare(
                 'UPDATE `lignefraishorsforfait` '
@@ -816,34 +830,11 @@ class PdoGsb {
                         . 'WHERE `id` = :unId '
                     );
                     $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
-                }
-        $requetePrepare->bindParam(':unId', $idLigneHorsForfait, PDO::PARAM_INT);
-        $requetePrepare->execute();
-        } else {
-            $this->setFicheFraisMoisDapres($idVisiteur, $mois);
-              if(substr($mois,-2) != "12"){
-            $requetePrepare = $this->connexion->prepare(
-                'UPDATE `lignefraishorsforfait` '
-                . 'SET `mois` = mois+1 '
-                . 'WHERE `id` = :unId '
-            );
-        }else{
-            substr($mois,-3,1) + 1;
-            str_replace(substr($mois,-3,1),substr($mois,-3,1)+1,$mois);
-            str_replace(substr($mois,-2),'01',$mois);
-            $requetePrepare = $this->connexion->prepare(
-                'UPDATE `lignefraishorsforfait` '
-                . 'SET `mois` = :unMois '
-                . 'WHERE `id` = :unId '
-            );
-            $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
         }
         $requetePrepare->bindParam(':unId', $idLigneHorsForfait, PDO::PARAM_INT);
         $requetePrepare->execute();
         }
         
-    }
-    
     /**
      * 
      * @param type $idvisiteur
@@ -874,7 +865,7 @@ class PdoGsb {
         $requetePrepare->execute();
         $lesLignes = $requetePrepare->fetch();
         return $lesLignes;
-    }
+        }
     
     /**
      * 
