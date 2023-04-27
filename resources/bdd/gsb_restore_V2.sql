@@ -2,9 +2,10 @@
 
 -- Administration de la base de données
 CREATE DATABASE gsb_frais_b3;
-GRANT SHOW DATABASES ON *.* TO userGsb@localhost IDENTIFIED BY 'secret';
+CREATE USER 'userGsb'@'localhost' IDENTIFIED BY 'LeGroupeDesAlex6';
 GRANT ALL PRIVILEGES ON `gsb_frais_b3`.* TO userGsb@localhost;
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET SQL_SAFE_UPDATES = 0;
 USE gsb_frais_b3 ;
 
 -- Création de la structure de la base de données
@@ -149,4 +150,3 @@ UPDATE visiteur SET email = CONCAT(login,"@swiss-galaxy.com");
 ALTER TABLE visiteur ADD code CHAR(4);
 
 UPDATE `etat` SET `libelle`='Validée' WHERE id = 'VA';
-INSERT INTO `etat` (`id`, `libelle`) VALUES ('MP', 'Mise en paiement');
